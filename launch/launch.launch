@@ -1,0 +1,21 @@
+<launch>
+    <include file="$(find multirobot_coordination)/launch/namespace.launch">
+        <arg name="my_ns" value="tb1" />
+    </include>
+    <!--
+    <include file="$(find multirobot_coordination)/launch/namespace.launch">
+        <arg name="my_ns" value="tb2" />
+    
+    </include>
+
+    <include file="$(find multirobot_coordination)/launch/namespace.launch">
+        <arg name="my_ns" value="tb3" />
+    </include>
+    --> 
+
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+        args="-d $(find turtlebot3_slam)/rviz/turtlebot3_gmapping.rviz"/>
+
+    <!-- <include file="$(find multirobot_coordination)/launch/PLATZHalter.launch"/> -->
+
+</launch>
