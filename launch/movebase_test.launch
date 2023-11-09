@@ -1,7 +1,7 @@
 <launch>
     <group ns="tb1">
         <node pkg = "move_base" type = "move_base" respawn = "false" name = "move_base" output = "screen">
-            
+            <!--
             <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
             <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_burger.yaml" command="load" ns="global_costmap" />
             <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_burger.yaml" command="load" ns="local_costmap" />
@@ -9,7 +9,7 @@
             <rosparam file="$(find turtlebot3_navigation)/param/global_costmap_params.yaml" command="load" />
             <rosparam file="$(find turtlebot3_navigation)/param/move_base_params.yaml" command="load" />
             <rosparam file="$(find turtlebot3_navigation)/param/dwa_local_planner_params_burger.yaml" command="load" />
-            
+            -->
             <param name="TrajectoryRollout/meter_scoring" value="true"/>
 
             <param name = "global_costmap/scan/sensor_frame" value="tb1/base_scan"/>
