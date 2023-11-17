@@ -38,7 +38,7 @@
 
             <param name = "local_costmap/scan/sensor_frame" value="tb1/base_scan"/>
             <param name = "local_costmap/obstacle_layer/scan/sensor_frame" value="tb1/base_scan"/>
-            <param name = "local_costmap/global_frame" value="tb1/odom"/>  <!--odom zu map, wieder rückgängig,kommi zur erinnerung-->
+            <param name = "local_costmap/global_frame" value="tb1/map"/>  <!--odom zu map, wieder rückgängig,kommi zur erinnerung-->
             <param name = "local_costmap/robot_base_frame" value="tb1/base_footprint"/>
 
             <remap from="cmd_vel" to="cmd_vel"/>

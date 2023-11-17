@@ -1,21 +1,58 @@
 <launch>
-    <include file="$(find multirobot_coordination)/launch/namespace.launch">
-        <arg name="my_ns" value="tb1" />
+    <!--MAP SERVER-->
+    <node pkg = "map_server" name = "map_server" type = "map_server" args = "/home/emre/map.yaml"/>
+        <param name="frame_id" value="/map" />
+
+    <!--TB1-->
+    <include file="$(find multirobot_coordination)/launch/bringup_state_pup_ns.launch">
+        <arg name="my_robot" value="tb1" />
     </include>
     <!--
-    <include file="$(find multirobot_coordination)/launch/namespace.launch">
-        <arg name="my_ns" value="tb2" />
+    <include file="$(find multirobot_coordination)/launch/gmapping_ns.launch">
+        <arg name="my_robot" value="tb1" />
+    </include> -->
+
+    <include file="$(find multirobot_coordination)/launch/movebase_ns.launch">
+        <arg name="my_robot" value="tb1" />
+
+    </include>
+
     
+    <include file="$(find multirobot_coordination)/launch/amcl_ns.launch">
+        <arg name="my_robot" value="tb1" />
+    </include>   
+
+    <!--TB1 END-->
+
+
+    <!--TB2-->
+    <include file="$(find multirobot_coordination)/launch/bringup_state_pup_ns.launch">
+        <arg name="my_robot" value="tb2" />
+    </include>
+    <!--
+    <include file="$(find multirobot_coordination)/launch/gmapping_ns.launch">
+        <arg name="my_robot" value="tb2" />
+    </include> -->
+
+    <include file="$(find multirobot_coordination)/launch/movebase_ns.launch">
+        <arg name="my_robot" value="tb2" />
+
     </include>
 
-    <include file="$(find multirobot_coordination)/launch/namespace.launch">
-        <arg name="my_ns" value="tb3" />
-    </include>
-    --> 
+    
+    <include file="$(find multirobot_coordination)/launch/amcl_ns.launch">
+        <arg name="my_robot" value="tb2" />
+    </include>   
 
+    <!--TB2 END-->
+
+
+    <!--RVIZ SLAM
     <node pkg="rviz" type="rviz" name="rviz" required="true"
-        args="-d $(find turtlebot3_slam)/rviz/turtlebot3_gmapping.rviz"/>
+        args="-d $(find turtlebot3_slam)/rviz/turtlebot3_gmapping.rviz"/>   -->
+    <!--RVIZ NAV-->
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+                 args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
 
-    <!-- <include file="$(find multirobot_coordination)/launch/PLATZHalter.launch"/> -->
 
 </launch>
