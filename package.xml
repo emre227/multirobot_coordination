@@ -53,6 +53,17 @@
   <build_export_depend>rospy</build_export_depend>
   <exec_depend>rospy</exec_depend>
 
+  <build_depend>geometry_msgs.msg</build_depend>
+  <build_export_depend>geometry_msgs.msg</build_export_depend>
+  <exec_depend>geometry_msgs.msg</exec_depend>
+
+  <build_depend>tf</build_depend>
+  <build_export_depend>tf</build_export_depend>
+  <exec_depend>tf</exec_depend>
+
+  <build_depend>math</build_depend>
+  <build_export_depend>math</build_export_depend>
+  <exec_depend>math</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
