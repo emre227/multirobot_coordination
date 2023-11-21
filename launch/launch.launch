@@ -7,11 +7,7 @@
     <include file="$(find multirobot_coordination)/launch/bringup_state_pup_ns.launch">
         <arg name="my_robot" value="tb1" />
     </include>
-    <!--
-    <include file="$(find multirobot_coordination)/launch/gmapping_ns.launch">
-        <arg name="my_robot" value="tb1" />
-    </include> -->
-
+ 
     <include file="$(find multirobot_coordination)/launch/movebase_ns.launch">
         <arg name="my_robot" value="tb1" />
 
@@ -29,10 +25,6 @@
     <include file="$(find multirobot_coordination)/launch/bringup_state_pup_ns.launch">
         <arg name="my_robot" value="tb2" />
     </include>
-    <!--
-    <include file="$(find multirobot_coordination)/launch/gmapping_ns.launch">
-        <arg name="my_robot" value="tb2" />
-    </include> -->
 
     <include file="$(find multirobot_coordination)/launch/movebase_ns.launch">
         <arg name="my_robot" value="tb2" />
@@ -47,12 +39,9 @@
     <!--TB2 END-->
 
 
-    <!--RVIZ SLAM
-    <node pkg="rviz" type="rviz" name="rviz" required="true"
-        args="-d $(find turtlebot3_slam)/rviz/turtlebot3_gmapping.rviz"/>   -->
     <!--RVIZ NAV-->
     <node pkg="rviz" type="rviz" name="rviz" required="true"
-                 args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
+                 args="-d $(find multirobot_coordination)/rviz/multirobot_coordination.rviz"/>
 
 
 </launch>

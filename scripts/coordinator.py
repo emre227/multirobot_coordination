@@ -11,11 +11,11 @@ if __name__ == '__main__':
     rospy.init_node('coordinator')              #Started die Node mit den Namen "coordinator"
     listener = tf.TransformListener()           #Erzeugt ein tf-listener Objekt
     tb1_pub = rospy.Publisher("tb1/move_base_simple/goal", PoseStamped, queue_size=10)  #publisher um die Nachricht zum Topic "tb1/move_base_simple/goal"
-    #Falls mehr TBots hier einfügen                                                     #zu senden, erwartet eine Nachricht vom Typ "PoseStamped"
-    tb2_pub = rospy.Publisher("tb2/move_base_simple/goal", PoseStamped, queue_size=10)
-    tb3_pub = rospy.Publisher("tb3/move_base_simple/goal", PoseStamped, queue_size=10)
-    tb4_pub = rospy.Publisher("tb4/move_base_simple/goal", PoseStamped, queue_size=10)
-    tb5_pub = rospy.Publisher("tb5/move_base_simple/goal", PoseStamped, queue_size=10)
+    tb2_pub = rospy.Publisher("tb2/move_base_simple/goal", PoseStamped, queue_size=10)  #zu senden, erwartet eine Nachricht vom Typ "PoseStamped"
+    #tb3_pub = rospy.Publisher("tb3/move_base_simple/goal", PoseStamped, queue_size=10)
+    #tb4_pub = rospy.Publisher("tb4/move_base_simple/goal", PoseStamped, queue_size=10)
+    #tb5_pub = rospy.Publisher("tb5/move_base_simple/goal", PoseStamped, queue_size=10)
+    #Falls mehr TBots hier einfügen 
 
     while not rospy.is_shutdown():                  #Führt die Schleife aus, solange die Node nicht beendet wurde
         
