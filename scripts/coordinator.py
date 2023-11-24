@@ -6,79 +6,91 @@ import tf                   #tf Bibliothek um mit den Frames zu arbeiten
 import math                 #für die Berechnung des Abstandes
 
 
+## @package multirobot_coordination
+# Dokumentation für den coordinator.py
+#
+# Der coordinator.py fragt nach einem User-Input für die Zielkoordinate und speichert diesen dann ab.
+# Danach werden die Koordinaten der TurtleBots abgefragt und der Abstand zum Ziel wird berechnet. 
+# Aus einer Liste mit den Abständen wird der niedrigste ermittelt, der zugehörige TurtleBot
+# bekommt dann den Befehl sich zum Ziel zu bewegen.
+
 if __name__ == '__main__':
 
-    rospy.init_node('coordinator')              #Started die Node mit den Namen "coordinator"
-    listener = tf.TransformListener()           #Erzeugt ein tf-listener Objekt
-    tb1_pub = rospy.Publisher("tb1/move_base_simple/goal", PoseStamped, queue_size=10)  #publisher um die Nachricht zum Topic "tb1/move_base_simple/goal"
-    tb2_pub = rospy.Publisher("tb2/move_base_simple/goal", PoseStamped, queue_size=10)  #zu senden, erwartet eine Nachricht vom Typ "PoseStamped"
-    #tb3_pub = rospy.Publisher("tb3/move_base_simple/goal", PoseStamped, queue_size=10)
-    #tb4_pub = rospy.Publisher("tb4/move_base_simple/goal", PoseStamped, queue_size=10)
-    #tb5_pub = rospy.Publisher("tb5/move_base_simple/goal", PoseStamped, queue_size=10)
-    #Falls mehr TBots hier einfügen 
+    
+    # Started die Node mit den Namen "coordinator"
+    # @param 'coordinator' Name der Node die erstellt wird
+    rospy.init_node('coordinator') 
+    # Erzeugt ein tf-listener Objekt um die Koordinatentransformation abzuhören            
+    listener = tf.TransformListener()  
+    # erzeugt Publisher um die Nachricht zum Topic "tb1/move_base_simple/goal"
+    # zu senden, erwartet eine Nachricht vom Typ "PoseStamped"
+    # falls mehr TBots genutzt werden müssen hier weitere hinzugefügt werden
+    tb1_pub = rospy.Publisher("tb1/move_base_simple/goal", PoseStamped, queue_size=10)  
+    tb2_pub = rospy.Publisher("tb2/move_base_simple/goal", PoseStamped, queue_size=10)  
+    tb3_pub = rospy.Publisher("tb3/move_base_simple/goal", PoseStamped, queue_size=10)
 
-    while not rospy.is_shutdown():                  #Führt die Schleife aus, solange die Node nicht beendet wurde
-        
-        x_inp ,y_inp = (input("Enter X, Y coordinates of the destination: ")).split() #Liest user input und teilt in x und y auf
-        x_goal = float(x_inp)       #Wandelt Strings in Float um
+    # Führt die Schleife aus, solange die Node nicht beendet wurde
+    while not rospy.is_shutdown():                 
+        # Liest User-Input und teilt in ihn in X und Y Koordinate auf
+        x_inp ,y_inp = (input("Enter X, Y coordinates of the destination: ")).split() 
+        # Wandelt die Input-Strings in Float um und speichert sie unter neuen Namen ab
+        x_goal = float(x_inp)       
         y_goal = float(y_inp)
-
-        xy_goal = PoseStamped()                     #definiert Var. xy_goal als PoseStamped
+        # definiert Var. xy_goal als PoseStamped
+        xy_goal = PoseStamped()                     
         xy_goal.header.seq = 0
-        xy_goal.header.frame_id = 'map'             #Information zu welchen Koordinaten System die Koordinaten der Nachricht gehören
-        xy_goal.header.stamp = rospy.Time.now()     #Information der aktuellen Zeit
-        xy_goal.pose = Pose(Point(x_goal,y_goal,0.0) , Quaternion(0,0,0,1))     #gibt der Nachricht die gewünschte Position 
+        # I nformation zu welchen Koordinaten System die Koordinaten der Nachricht gehören
+        xy_goal.header.frame_id = 'map' 
+        # Information der aktuellen Zeit            
+        xy_goal.header.stamp = rospy.Time.now()   
+        # übergibt der Variable die Zielkoordinaten
+        xy_goal.pose = Pose(Point(x_goal,y_goal,0.0) , Quaternion(0,0,0,1))     
 
 
         try:
-            (tb1_trans,tb1_rot) = listener.lookupTransform('map', 'tb1/base_link', rospy.Time(0)) #Fragt die Koordinate von dem Baselink-Frame des Tbots im Bezug zum Map-Frame ab
-                                                                                                  #und gibt als Rückgabewert zwei Listen mit translatorischen und rotatorischen Koordinaten
+            #Fragt die Koordinate von dem Baselink-Frame des Tbots im Bezug zum Map-Frame ab
+            #und gibt als Rückgabewert zwei Listen mit translatorischen und rotatorischen Koordinaten
+            #Wenn Mehr TBOTs genutzt werden müssen hier neue hinzugefügt werden
+            (tb1_trans,tb1_rot) = listener.lookupTransform('map', 'tb1/base_link', rospy.Time(0)) 
+                                                                                                  
             (tb2_trans,tb2_rot) = listener.lookupTransform('map', 'tb2/base_link', rospy.Time(0)) 
-            #Wenn mehr TBots genutzt werden, restliche Anweisungen auskommentieren
-            #(tb3_trans,tb3_rot) = listener.lookupTransform('map', 'tb3/base_link', rospy.Time(0))
-
-            #(tb4_trans,tb4_rot) = listener.lookupTransform('map', 'tb4/base_link', rospy.Time(0))
             
-            #(tb5_trans,tb5_rot) = listener.lookupTransform('map', 'tb5/base_link', rospy.Time(0))
-
-        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):       #Fängt Fehler ab, falls fehler mit den Frames auftreten
+            (tb3_trans,tb3_rot) = listener.lookupTransform('map', 'tb3/base_link', rospy.Time(0))
+        #Fängt Fehler ab, falls fehler mit den Frames auftreten
+        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):      
             continue
             
         
-        #print("X1: " , tb1_trans[0],"Y1: ", tb1_trans[1])   
-        #print("X2: " , tb2_trans[0],"Y2: ", tb2_trans[1])
-        tb_trans_list = [tb1_trans, tb2_trans]              #Liste der trans. Koordinaten: wenn mehr TBots, auch hier hinzufügen
+        #Liste der translatorischen Koordinaten: wenn mehr TBots, auch hier hinzufügen
+        tb_trans_list = [tb1_trans, tb2_trans, tb3_trans]              
 
-
-        #print("X1: " , tb_trans_list[0][0],"Y1: ", tb_trans_list[0][1]) 
-        #print("X2: " , tb_trans_list[1][0],"Y2: ", tb_trans_list[1][1]) 
-        i = 0 #index
-        distance_list = [] #deklariert leeres Array
-        for tb_trans in tb_trans_list:   #for-Schleife, führt so viele Iterationen durch wie Elemente in der Liste(tb_trans_list)
-                                               
-            distance_list.append(math.sqrt( ( x_goal - tb_trans_list[i][0] )**2 + ( y_goal - tb_trans_list[i][1] )**2 ) ) #Füllt Liste mit den Abständen zum Ziel
+        # index zum Hochzählen der Listen
+        i = 0
+        # deklariert leeres Array wo die Abstände zum Ziel gespeichert werden
+        distance_list = [] 
+        # for-Schleife, führt so viele Iterationen durch wie Elemente in der Liste(tb_trans_list)
+        for tb_trans in tb_trans_list:   
+             # Füllt Liste mit den Abständen zum Ziel, Abstand wird nach der Formel für den Abstand zweier Punkte berechnet                         
+            distance_list.append(math.sqrt( ( x_goal - tb_trans_list[i][0] )**2 + ( y_goal - tb_trans_list[i][1] )**2 ) )
             i = i + 1 
 
-        #print(distance_list[0],distance_list[1])
 
-
-        dist_min_index = distance_list.index(min(distance_list))   #Sucht aus der Liste den kleinsten Wert und gibt davon den Index
-                                                                   #der Index steht für den jeweiligen TBot
-
-        if dist_min_index == 0 :                #Falls Index 0 -> TBot 1 den Befehl geben zu der Koordinate zu Fahren
-            tb1_pub.publish(xy_goal)                                   #Falls mehr TBots, hier hinzufügen
+        # Sucht aus der Liste den kleinsten Wert und gibt davon den Index
+        # der Index steht für den jeweiligen TBot
+        dist_min_index = distance_list.index(min(distance_list))   
+        # if-Bedingung, je nach Index wird der passende TBot ausgewählt
+        # 
+        # Falls mehr TBots, hier hinzufügen
+        if dist_min_index == 0 : 
+            # Sendet die Nachricht xy_goal an den zuvor festgelegten Topic               
+            tb1_pub.publish(xy_goal)    
+            # Ausgabe                               
             print("TBot1 moves to X: ",x_goal," Y: ", y_goal)    
         elif dist_min_index == 1:
             tb2_pub.publish(xy_goal)
             print("TBot2 moves to X: ",x_goal," Y: ", y_goal)
-        #elif dist_min_index == 2:
-        #    tb3_pub.publish(xy_goal)
-        #    print("TBot3 moves to X: ",x_goal," Y: ", y_goal)
-        #elif dist_min_index == 3:
-        #    tb4_pub.publish(xy_goal) 
-        #    print("TBot4 moves to X: ",x_goal," Y: ", y_goal) 
-        #elif dist_min_index == 4:
-        #    tb5_pub.publish(xy_goal)  
-        #    print("TBot5 moves to X: ",x_goal," Y: ", y_goal)  
+        elif dist_min_index == 2:
+            tb3_pub.publish(xy_goal)
+            print("TBot3 moves to X: ",x_goal," Y: ", y_goal)
         else:
             pass
