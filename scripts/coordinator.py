@@ -28,6 +28,7 @@ if __name__ == '__main__':
     tb1_pub = rospy.Publisher("tb1/move_base_simple/goal", PoseStamped, queue_size=10)  
     tb2_pub = rospy.Publisher("tb2/move_base_simple/goal", PoseStamped, queue_size=10)  
     tb3_pub = rospy.Publisher("tb3/move_base_simple/goal", PoseStamped, queue_size=10)
+    tb4_pub = rospy.Publisher("tb4/move_base_simple/goal", PoseStamped, queue_size=10)
 
     # Führt die Schleife aus, solange die Node nicht beendet wurde
     while not rospy.is_shutdown():                 
@@ -51,18 +52,17 @@ if __name__ == '__main__':
             #Fragt die Koordinate von dem Baselink-Frame des Tbots im Bezug zum Map-Frame ab
             #und gibt als Rückgabewert zwei Listen mit translatorischen und rotatorischen Koordinaten
             #Wenn Mehr TBOTs genutzt werden müssen hier neue hinzugefügt werden
-            (tb1_trans,tb1_rot) = listener.lookupTransform('map', 'tb1/base_link', rospy.Time(0)) 
-                                                                                                  
+            (tb1_trans,tb1_rot) = listener.lookupTransform('map', 'tb1/base_link', rospy.Time(0))                                                                                                
             (tb2_trans,tb2_rot) = listener.lookupTransform('map', 'tb2/base_link', rospy.Time(0)) 
-            
             (tb3_trans,tb3_rot) = listener.lookupTransform('map', 'tb3/base_link', rospy.Time(0))
+            (tb4_trans,tb4_rot) = listener.lookupTransform('map', 'tb4/base_link', rospy.Time(0))
         #Fängt Fehler ab, falls fehler mit den Frames auftreten
         except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):      
             continue
             
         
         #Liste der translatorischen Koordinaten: wenn mehr TBots, auch hier hinzufügen
-        tb_trans_list = [tb1_trans, tb2_trans, tb3_trans]              
+        tb_trans_list = [tb1_trans, tb2_trans, tb3_trans, tb4_trans]              
 
         # index zum Hochzählen der Listen
         i = 0
@@ -92,5 +92,8 @@ if __name__ == '__main__':
         elif dist_min_index == 2:
             tb3_pub.publish(xy_goal)
             print("TBot3 moves to X: ",x_goal," Y: ", y_goal)
+        elif dist_min_index == 3:
+            tb4_pub.publish(xy_goal)
+            print("TBot4 moves to X: ",x_goal," Y: ", y_goal)            
         else:
             pass
