@@ -1,73 +1,67 @@
 <launch>
     <!--MAP SERVER-->
-    <node pkg = "map_server" name = "map_server" type = "map_server" args = "/home/emre/map.yaml"/>
-        <param name="frame_id" value="/map" />
+    <node pkg="map_server" name="map_server" type="map_server" args="/home/emre/map.yaml"/>
+        <param name="frame_id" value="/map"/>
 
     <!--TB1-->
     <include file="$(find multirobot_coordination)/launch/bringup_state_pup_ns.launch">
-        <arg name="my_robot" value="tb1" />
+        <arg name="my_robot" value="tb1"/>
     </include>
  
     <include file="$(find multirobot_coordination)/launch/movebase_ns.launch">
-        <arg name="my_robot" value="tb1" />
+        <arg name="my_robot" value="tb1"/>
 
     </include>
 
-    
     <include file="$(find multirobot_coordination)/launch/amcl_ns.launch">
-        <arg name="my_robot" value="tb1" />
+        <arg name="my_robot" value="tb1"/>
     </include>   
-
     <!--TB1 END-->
 
     <!--TB2-->
     <include file="$(find multirobot_coordination)/launch/bringup_state_pup_ns.launch">
-        <arg name="my_robot" value="tb2" />
+        <arg name="my_robot" value="tb2"/>
     </include>
 
     <include file="$(find multirobot_coordination)/launch/movebase_ns.launch">
-        <arg name="my_robot" value="tb2" />
+        <arg name="my_robot" value="tb2"/>
 
     </include>
     
     <include file="$(find multirobot_coordination)/launch/amcl_ns.launch">
-        <arg name="my_robot" value="tb2" />
+        <arg name="my_robot" value="tb2"/>
     </include>   
-
     <!--TB2 END-->
 
     <!--TB3-->
     <include file="$(find multirobot_coordination)/launch/bringup_state_pup_ns.launch">
-        <arg name="my_robot" value="tb3" />
+        <arg name="my_robot" value="tb3"/>
     </include>
 
     <include file="$(find multirobot_coordination)/launch/movebase_ns.launch">
-        <arg name="my_robot" value="tb3" />
+        <arg name="my_robot" value="tb3"/>
 
     </include>
 
     <include file="$(find multirobot_coordination)/launch/amcl_ns.launch">
-        <arg name="my_robot" value="tb3" />
+        <arg name="my_robot" value="tb3"/>
     </include>   
-
     <!--TB3 END-->
 
     <!--TB4-->
     <include file="$(find multirobot_coordination)/launch/bringup_state_pup_ns.launch">
-        <arg name="my_robot" value="tb4" />
+        <arg name="my_robot" value="tb4"/>
     </include>
 
     <include file="$(find multirobot_coordination)/launch/movebase_ns.launch">
-        <arg name="my_robot" value="tb4" />
+        <arg name="my_robot" value="tb4"/>
 
     </include>
 
     <include file="$(find multirobot_coordination)/launch/amcl_ns.launch">
-        <arg name="my_robot" value="tb4" />
+        <arg name="my_robot" value="tb4"/>
     </include>   
-
     <!--TB4 END-->
-
 
 
     <!--RVIZ NAV-->

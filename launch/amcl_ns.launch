@@ -1,11 +1,9 @@
 <launch>
     <arg name="my_robot"/>
-    <!--<group ns="$(arg my_robot)"> -->
         
         <node pkg="amcl" type="amcl" name="$(arg my_robot)_amcl">
 
-
-            <param name ="use_map_topic" value="false"/>
+            <param name="use_map_topic"             value="false"/>
             <param name="min_particles"             value="500"/>
             <param name="max_particles"             value="3000"/>
             <param name="kld_err"                   value="0.02"/>
@@ -41,14 +39,10 @@
             <param name="base_frame_id"             value="$(arg my_robot)/base_footprint"/>
             <param name="global_frame_id"           value="/map"/>
 
-            <remap from = "amcl_pose" to = "$(arg my_robot)/amcl_pose" />
-            <remap from = "particlecloud" to = "$(arg my_robot)/particlecloud" />
-            <remap from = "initialpose" to="$(arg my_robot)/initialpose" />
-            <remap from ="scan" to="$(arg my_robot)/scan" />
+            <remap from="amcl_pose"                 to="$(arg my_robot)/amcl_pose"/>
+            <remap from="particlecloud"             to="$(arg my_robot)/particlecloud"/>
+            <remap from="initialpose"               to="$(arg my_robot)/initialpose"/>
+            <remap from="scan"                      to="$(arg my_robot)/scan"/>
         </node>
-
-    <!--</group>-->
-
-
 
 </launch>
